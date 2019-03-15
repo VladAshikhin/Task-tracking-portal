@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<title>Task-Tracking Portal</title>
+	<link rel="stylesheet" type="text/css" href="css/mode.css">
+</head>
+<body>
+<div style="text-align: right; margin-right: 20px;">
+	<form th:action="@{/logout}" method="post">
+		<input type="submit" value="Sign Out" />
+	</form>
+</div>
+	<h1>You are in the User mode!</h1>
+<div class="mode-rights">
+    <p>You are allowed to see the list of tasks and add tasks.</p>
+    <p>Click "Task-tracking portal" to continue:</p>
+</div>
+<div class="task-portal">
+	<a style="color: blue" th:href="@{/tasks}">Task-tracking portal</a>
+</div>
+</body>
+</html>

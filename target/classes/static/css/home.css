@@ -1,0 +1,10 @@
+.u-page, .a-page{
+    padding: 40px;
+    width: 200px;
+    height: 35px;
+    font-size: 20pt;
+    text-align: center;
+    background: #89caff;
+    border: 1px solid #4caeff;
+    border-radius: 40px;
+}

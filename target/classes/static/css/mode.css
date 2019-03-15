@@ -1,0 +1,28 @@
+.mode-rights {
+    width: 600px;
+    font-size: 20px;
+    background: #d9dde2;
+    border: 1px solid #c1c4c9;
+    border-radius: 2px;
+}
+
+p {
+    padding-left: 15px;
+}
+
+.logout-bar {
+    text-align: right;
+    margin-right: 20px;
+}
+
+.task-portal {
+    padding: 40px;
+    margin-top: 20px;
+    width: 300px;
+    height: 35px;
+    font-size: 20pt;
+    text-align: center;
+    background: #89caff;
+    border: 1px solid #4caeff;
+    border-radius: 40px;
+}
