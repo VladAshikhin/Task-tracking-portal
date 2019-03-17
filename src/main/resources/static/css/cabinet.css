@@ -1,3 +1,13 @@
+.filter-block {
+    width: 200px;
+    border: 2px solid #c1c4c9;
+    background: #d9dde2;
+    border-radius: 5px;
+    padding: 13px 20px 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
 .add-tasks {
     width: 620px;
     border: 2px solid #c1c4c9;
@@ -13,19 +23,6 @@
 
 }
 
-.filter-id {
-    width: 30px;
-}
-
-.subj-field, .prior-field, .creby-field, .uid-filter {
-    width: 70px;
-}
-
-#filter-fields{
-    padding-top: 15px;
-    padding-bottom: 15px;
-}
-
 #table {
     border: 1px solid #1C6EA4;
     background-color: #EEEEEE;
@@ -34,20 +31,20 @@
     text-align: left;
     border-collapse: collapse;
 }
-#filter-head{
-    max-width:inherit;
-}
 
 #table, .table-head-cell, .table-content-cell {
     border: 1px solid #AAAAAA;
     padding: 3px 2px;
 }
+
 #table tbody td {
     font-size: 19px;
 }
+
 #table tr:nth-child(even) {
     background: #D0E4F5;
 }
+
 #table thead {
     background: #1C6EA4;
     background: -moz-linear-gradient(top, #5592bb 0%, #327cad 66%, #1C6EA4 100%);
@@ -55,12 +52,14 @@
     background: linear-gradient(to bottom, #5592bb 0%, #327cad 66%, #1C6EA4 100%);
     border-bottom: 2px solid #444444;
 }
+
 #table thead th {
     font-size: 22px;
     font-weight: bold;
     color: #FFFFFF;
     border-left: 2px solid #D0E4F5;
 }
+
 #table thead th:first-child {
     border-left: none;
 }
@@ -68,10 +67,12 @@
 #table tfoot td {
     font-size: 14px;
 }
+
 #table tfoot .links {
     text-align: right;
 }
-#table tfoot .links a{
+
+#table tfoot .links a {
     display: inline-block;
     background: #1C6EA4;
     color: #FFFFFF;
@@ -80,47 +81,79 @@
 }
 
 .onoffswitch {
-    position: relative; width: 46px;
-    -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+    position: relative;
+    width: 46px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
 }
+
 .onoffswitch-checkbox {
     display: none;
 }
+
 .onoffswitch-label {
-    display: block; overflow: hidden; cursor: pointer;
-    border: 2px solid #999999; border-radius: 20px;
+    display: block;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px solid #999999;
+    border-radius: 20px;
 }
+
 .onoffswitch-inner {
-    display: block; width: 200%; margin-left: -100%;
+    display: block;
+    width: 200%;
+    margin-left: -100%;
     transition: margin 0.3s ease-in 0s;
 }
+
 .onoffswitch-inner:before, .onoffswitch-inner:after {
-    display: block; float: left; width: 50%; height: 20px; padding: 0; line-height: 20px;
-    font-size: 14px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
+    display: block;
+    float: left;
+    width: 50%;
+    height: 20px;
+    padding: 0;
+    line-height: 20px;
+    font-size: 14px;
+    color: white;
+    font-family: Trebuchet, Arial, sans-serif;
+    font-weight: bold;
     box-sizing: border-box;
 }
+
 .onoffswitch-inner:before {
     content: "";
     padding-left: 10px;
-    background-color: #5592bb; color: #FFFFFF;
+    background-color: #5592bb;
+    color: #FFFFFF;
 }
+
 .onoffswitch-inner:after {
     content: "";
     padding-right: 10px;
-    background-color: #EEEEEE; color: #999999;
+    background-color: #EEEEEE;
+    color: #999999;
     text-align: right;
 }
+
 .onoffswitch-switch {
-    display: block; width: 13px; margin: 3.5px;
+    display: block;
+    width: 13px;
+    margin: 3.5px;
     background: #FFFFFF;
-    position: absolute; top: 0; bottom: 0;
+    position: absolute;
+    top: 0;
+    bottom: 0;
     right: 22px;
-    border: 2px solid #999999; border-radius: 20px;
+    border: 2px solid #999999;
+    border-radius: 20px;
     transition: all 0.3s ease-in 0s;
 }
+
 .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
     margin-left: 0;
 }
+
 .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
     right: 0px;
 }
@@ -134,7 +167,8 @@
     border-bottom: solid 3px #878787;
     box-shadow: inset 0 0 0 1px #e3e3e3;
     color: black;
-    text-shadow: 0 1px 0 #d6d6d6; }
+    text-shadow: 0 1px 0 #d6d6d6;
+}
 
 .btn:hover {
     background: #b7b7b7;
@@ -143,7 +177,7 @@
     background: linear-gradient(#b7b7b7, #c2c2c2);
     border: solid 1px #a2a2a2;
     border-bottom: solid 3px #878787;
-     }
+}
 
 .btn:active {
     background: #afafaf;
@@ -151,4 +185,4 @@
     background: -moz-linear-gradient(#afafaf, #a9a9a9);
     background: linear-gradient(#afafaf, #a9a9a9);
     border: solid 1px #757575;
-     }
+}

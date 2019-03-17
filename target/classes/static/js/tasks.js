@@ -1,6 +1,6 @@
 var LOGGED_IN_USER = getLoggedInUserId();
 
-    function disableButton(button) {
+function disableButton(button) {
     $(button).prop('disabled', true);
 }
 
@@ -8,34 +8,19 @@ function enableButton(button) {
     $(button).prop('disabled', false);
 }
 
-function clearFilterInputs() {
-$(".fil-id").val('');
-$('.filter-sub').val('');
-$('.filter-mes').val('');
-$('.filter-pri').val('');
-$('.filter-creby').val('');
-$('.filter-creon').val('');
-$('.filter-uid').val('');
-$('.filter-act').val('');
-$('.filter-clmes').val('');
+function clearFilterInput() {
+    $(".filter-field").val('');
 }
 
 function isHidden(elem) {
-        var isHidden = $(elem).css('display') === 'none';
-    /*if ($(elem).css('display') === 'none') {
-        return true;
-    } else {
-        return false;
-    }*/
+    var isHidden = $(elem).css('display') === 'none';
     return isHidden;
 }
 
-// Used only in 'Top tasks' tab
-// as it hides inactive but doesn't show active
 function hideInactiveRowsInTop(rows) {
-    $(rows).each(function(i, elem) {
+    $(rows).each(function (i, elem) {
         var activeCell = $(elem).find(".is-active-cell").text();
-        if(activeCell === 'false') {
+        if (activeCell === 'false') {
             $(elem).hide();
         }
     });
@@ -43,32 +28,37 @@ function hideInactiveRowsInTop(rows) {
 
 function hideInactiveRow(row) {
     var activeCell = $(row).find(".is-active-cell").text();
-    if(activeCell === 'false') {
+    if (activeCell === 'false') {
         $(row).hide();
     } else {
         $(row).show();
     }
 }
 
+/**
+ * @returns number of users registered in db
+ */
 function getNumberOfUsers() {
     var url = '/users/number';
     var methodType = 'GET';
     var number;
-        $.ajax({
+    $.ajax({
         url: url,
         type: methodType,
         async: false,
-        success: (function(response) {
+        success: (function (response) {
             number = response;
-            console.log('Number of users is: ' + number);
         }),
-        error: (function (){
+        error: (function () {
             console.log('Unable to get number of registered users.');
         })
     });
     return number;
 }
 
+/**
+ * @returns ID of currently logged in user
+ */
 function getLoggedInUserId() {
     var url = '/users/id';
     var methodType = 'GET';
@@ -77,19 +67,23 @@ function getLoggedInUserId() {
         url: url,
         type: methodType,
         async: false,
-        success: (function(response) {
+        success: (function (response) {
             id = response;
         }),
-        error: (function (){
+        error: (function () {
             console.log('Unable to get user.');
         })
     });
     return id;
 }
 
-// Sorts table by ID
+/**
+ * Sorts table using params:
+ * @param rows to be sorted
+ * @param order of format 'asc' of 'desc'
+ * @param column name to be sorted
+ */
 function sortTable(rows, order, column) {
-
     var asc = order === 'asc';
     var n;
     if (column === 'id') {
@@ -103,66 +97,51 @@ function sortTable(rows, order, column) {
     }
 
     var table = $("#table");
-    //table.find('.content-row').
-    $(rows).sort(function(a, b) {
+    $(rows).sort(function (a, b) {
         if (asc) {
-            return $('td:eq('+ n +')', a).text().localeCompare($('td:eq('+ n +')', b).text()); // 'td:first'
+            return $('td:eq(' + n + ')', a).text().localeCompare($('td:eq(' + n + ')', b).text());
         } else {
-            return $('td:eq('+ n +')', b).text().localeCompare($('td:eq('+ n +')', a).text());
+            return $('td:eq(' + n + ')', b).text().localeCompare($('td:eq(' + n + ')', a).text());
         }
     }).appendTo(table);
-
 }
 
-function sortByColumn3And5(row1, row2) {
-    var v1 = $(row1).find("td:eq(3)").text();
-    var v2 = $(row2).find("td:eq(3)").text();
-    var r = v1 - v2;
-    if (r === 0) {
-        // we have a tie in column 1 values, compare column 2 instead
-        v1 = $(row1).find("td:eq(5)").text();
-        v2 = $(row2).find("td:eq(5)").text();
-        if (v1 < v2) {
-            r = -1;
-        } else if (v1 > v2) {
-            r = 1;
-        } else {
-            r = 0;
-        }
-    }
-    return r;
-}
-
-
-
-// Validation of fields while adding a new task
+/**
+ * Validation of fields for adding data
+ * When fields are empty or 'priority' !isNumeric => alerts
+ */
 function onAddCheck() {
     var subject = $("#subject-input").val();
     var message = $("#message-input").val();
     var priority = $("#priority-input").val();
 
-    if(subject === "" || message === "" || priority === "") {
+    if (subject === "" || message === "" || priority === "") {
         alert('All fields should contain data!');
         return false;
     } else if (!$.isNumeric(priority)) {
         alert('Field \'priority\' should contain number!');
+        return false;
+    } else if (new Number(priority) < 1) {
+        alert('Value of priority field can\'t be negative or equal to 0!');
         return false;
     } else {
         $(".add-input").reset();
     }
 }
 
-// 'Show inactive' checkbox //
+/**
+ * Shows inactive rows when checkbox is checked
+ * Hides inactive rows when checkbox is unchecked
+ */
 function initActiveRows() {
     var currentRows = $("#table").find(".content-row").get();
     var check = $(".onoffswitch-checkbox");
-    $(currentRows).each(function(i, elem) {
+    $(currentRows).each(function (i, elem) {
         var currentRow = $(elem);
-       hideInactiveRow(currentRow);
+        hideInactiveRow(currentRow);
 
-        $(".onoffswitch-checkbox").change(function() {
-            if($(check).prop('checked') === false) {
-
+        $(".onoffswitch-checkbox").change(function () {
+            if ($(check).prop('checked') === false) {
                 hideInactiveRow(currentRow);
             } else {
                 $(currentRow).show();
@@ -171,65 +150,84 @@ function initActiveRows() {
     });
 }
 
-// Get difference between two dates
-function getDiff(dateValue){
+/**
+ * Gets difference in days between two days
+ * @param dateValue is 2nd date to calculate difference with
+ * @returns {number} of days between the two dates
+ */
+function getDiff(dateValue) {
     var date = new Date(); // today
-    var today = date.getFullYear()+'-0'+(date.getMonth()+1)+'-0'+date.getDate();
+    var today = date.getFullYear() + '-0' + (date.getMonth() + 1) + '-0' + date.getDate();
     var todayParsed = Date.parse(today);
     var dateValueParsed = Date.parse(dateValue);
-    var diffbf = Math.round((todayParsed-dateValueParsed)/(1000*60*60*24)); // Difference bad format
+    var diffbf = Math.round((todayParsed - dateValueParsed) / (1000 * 60 * 60 * 24)); // Difference bad format
 
     return Math.abs(diffbf);
 }
 
-// Adding the age of a task
+/**
+ * Adding the age of task to its creation date
+ */
 function populate() {
-    $('#table > tbody > tr').each(function(i, elem){
+    $('#table > tbody > tr').each(function (i, elem) {
 
-        var cell = $(elem).find(".created-cell"); // Finds a cell
-        var cellIdValue = $(cell).attr('id'); // Get its id
-        var date = cellIdValue.replace('created-on-cell-', ''); // Get date out of id
+        var cell = $(elem).find(".created-cell");
+        var cellIdValue = $(cell).attr('id');
+        var date = cellIdValue.replace('created-on-cell-', ''); // Get date out of cellId
         var difference = getDiff(date);
-        var newVal = difference + (difference === 1 ? ' day ' : ' days ') + ' ago on ' + date; // Put new value 'Created x days ago on {date}'
+        var newVal = difference + (difference === 1 ? ' day ' : ' days ') + ' ago on ' + date;
 
         $(cell).html(newVal);
     });
 }
 
-
-// Method for filtering data by 'Top tasks' and 'All tasks'
+/**
+ * Method for filtering data by 'Top tasks' and 'All tasks'
+ * @param amount is 'top' or 'all'
+ */
 function showTable(event, amount) {
+    $("#myonoffswitch").prop("checked", false);
+    clearFilterInput();
     var currentRows = $("#table").find(".content-row").get();
+    hideInactiveRowsInTop(currentRows);
     var quantity = getNumberOfUsers();
 
- // Hide inactive rows always
-    //Hide Switch
-    // Hide filters
-    // While adding tasks in this mode - check the positioning
-
-
-    if(amount === 'top') {
+    if (amount === 'top') {
         $(".switch-label").hide();
         $(".onoffswitch").hide();
+        $('#filter-head').hide();
         $(".filter-btn").hide();
 
-        sortTable(currentRows, 'desc', 'date'); // sort rows by date
-        hideInactiveRowsInTop(currentRows); // hide inactive rows
-        //$(currentRows).hide().slice(0, quantity).show(); // show rows from 0 to 'quantity'
+        sortTable(currentRows, 'asc', 'priority');
 
+        $(currentRows).each(function (i, elem) {
+            var status = $(elem).find('.is-active-cell').text();
+
+            if (i < quantity && status === 'true') {
+                $(elem).show();
+            } else if (status === 'false') {
+                quantity++;
+            } else {
+                $(elem).hide();
+            }
+        });
 
     } else {
         $(".switch-label").show();
         $(".onoffswitch").show();
+        $('#filter-head').hide();
         $(".filter-btn").show();
-        $(currentRows).each(function(i, elem){
+
+        $(currentRows).each(function (i, elem) {
             hideInactiveRow($(elem));
         });
-        sortTable(currentRows, 'asc', 'id');
     }
 }
 
-// Executed on 'Assign to me' button clicked
+/**
+ * Executed when 'Assign to me' button clicked
+ * Sets the current row's 'userId' value to logged in user id
+ */
 function onAssignTask() {
 
     var button = $(this);
@@ -238,7 +236,7 @@ function onAssignTask() {
     var userIdCell = $(currentRow).find(".user-id-cell");
 
     var data = {
-        "id" : taskId
+        "id": taskId
     };
 
     var url = '/tasks/assign';
@@ -254,24 +252,27 @@ function onAssignTask() {
         },
         contentType: 'application/json',
         data: JSON.stringify(data),
-        success: (function(response) {
+        success: (function (response) {
             alert('Task assigned successfully!');
             $(userIdCell).html(response.toString());
             disableButton(button);
         }),
-        error: (function (){
+        error: (function () {
             alert('Cannot update!');
         })
     })
 }
 
-// On 'Close task" click
+/**
+ * Executed when 'Close task' button clicked
+ * Asks for the close message and sets row status = 'false'
+ */
 function onCloseTask() {
 
     var button = $(this);
     var row = $(button).closest('.content-row');
     var taskId = $(row).find(".id-cell").text();
-    var inactiveRowsHidden = $(".onoffswitch-checkbox").prop('checked') === false;
+    var inactiveRowsHidden = $("#myonoffswitch").prop('checked') === false;
     var assignedCell = $(row).find(".user-id-cell").text();
 
     if (assignedCell !== LOGGED_IN_USER) {
@@ -281,12 +282,16 @@ function onCloseTask() {
 
     var closeMessage = prompt("Please specify the details of the work done:", "Done in time");
     if (closeMessage === null || closeMessage === "" || closeMessage === " ") {
-        return;
+        alert('Close message can\'t be empty!');
+        return false;
+    } else if (closeMessage.length < 2) {
+        alert('Too short close message!');
+        return false;
     }
 
     var data = {
-       "id": taskId,
-        "closeMessage" : closeMessage
+        "id": taskId,
+        "closeMessage": closeMessage
     };
 
     var url = '/tasks/close';
@@ -302,7 +307,7 @@ function onCloseTask() {
         },
         contentType: 'application/json',
         data: JSON.stringify(data),
-        success: (function() {
+        success: (function () {
             alert('Task closed successfully!');
             $(row).find(".close-message-cell").html(closeMessage);
             $(row).find(".is-active-cell").html('false');
@@ -311,66 +316,57 @@ function onCloseTask() {
                 $(row).hide();
             }
         }),
-        error: (function (){
+        error: (function () {
             alert('Cannot update!');
         })
     })
 }
 
-function onFilterButton(){
-        var filterCells = $('#filter-head');
-        if (isHidden(filterCells)) {
-            $(filterCells).show()
-        } else {
-            $(filterCells).hide();
-            clearFilterInputs();
-        }
-}
-
-function filterTable(event) {
-    var filter = $(this).val().toUpperCase();
-    console.log('filter is: .' + filter + '.');
-    console.log('filter field val is: .' + $('.filter-id').val() + '.');
-    var rows = $("#table").find('.content-row').get();
-
-    for (var i = 0; i < rows.length; i++) {
-        var colOne = rows[i].cells[0].textContent.toUpperCase();
-        console.log(colOne);
-        var colTwo = rows[i].cells[1].textContent.toUpperCase();
-        console.log(colTwo);
-        var colThree = rows[i].cells[2].textContent.toUpperCase();
-        var colFour = rows[i].cells[3].textContent.toUpperCase();
-        var colFive = rows[i].cells[4].textContent.toUpperCase();
-        var colSix = rows[i].cells[5].textContent.toUpperCase();
-        var colSeven = rows[i].cells[6].textContent.toUpperCase();
-        var colEight = rows[i].cells[7].textContent.toUpperCase();
-        var colNine = rows[i].cells[8].textContent.toUpperCase();
-
-        if (colOne.indexOf(filter) > -1 || colTwo.indexOf(filter) > -1 ||
-            colThree.indexOf(filter) > -1 || colFour.indexOf(filter) > -1 ||
-            colFive.indexOf(filter) > -1 || colSix.indexOf(filter) > -1 ||
-            colSeven.indexOf(filter) > -1 || colEight.indexOf(filter) > -1 ||
-            colNine.indexOf(filter) > -1) {
-console.log('index');
-            $(rows[i]).show();
-        } else {
-            console.log('not index')
-            $(rows[i]).hide();
-        }
+function onFilterButton() {
+    var filter = $('#filter-head');
+    if (isHidden(filter)) {
+        $(filter).show();
+    } else {
+        $(filter).hide();
+        clearFilterInput();
+        showTable(event, 'all');
     }
 }
 
-    $('.fil-id, .filter-sub, .filter-mes, .filter-pri, .filter-creby, .filter-creon, .filter-uid, .filter-act, .filter-clmes').each(function (i, elem) {
-        $(elem).on('keyup', filterTable);
+/**
+ * Executed while filtering data
+ * Triggered on each keyup
+ */
+function filter() {
+    $(".filter-field").on("keyup", function () {
+
+        var value = $(this).val();
+        $("#table .content-row").each(function (index) {
+            if (index !== 0) {
+                var row = $(this);
+                //filters tds that match indexOf check
+                var matches = row.find('.table-content-cell').filter(function (ix, item) {
+                    var input = $(item).text().toUpperCase();
+                    return input.indexOf(value.toUpperCase()) > -1;
+                });
+
+                //if matches exist then show, else hide
+                if (matches.length !== 0) {
+                    $(row).show();
+                }
+                else {
+                    $(row).hide();
+                }
+            }
+        });
     });
-
-
+}
 
 function init() {
     var currentRows = $("#table").find(".content-row").get();
-    $(currentRows).each(function(i, elem){
+    $(currentRows).each(function (i, elem) {
         var assignedVal = $(elem).find(".user-id-cell").text();
-        var assignButton = $(elem).find(".assign"); //  try find
+        var assignButton = $(elem).find(".assign");
         var activeVal = $(elem).find(".is-active-cell").text();
         var closeMsgVal = $(elem).find(".close-message-cell").text();
         var closeButton = $(elem).find(".close-task-btn");
@@ -388,12 +384,12 @@ function init() {
     });
 }
 
-
 $(document).ready(init);
 $(document).ready(populate);
 $(document).ready(initActiveRows);
+$(document).ready(filter);
+$(document).ready(showTable(event, 'top'));
 $(document).on('click', '.filter-btn', onFilterButton);
-//$(document).ready(sortTable('asc', 'id'));
 $(document).on('click', '.add-btn', onAddCheck);
 $(document).on('click', '.close-task-btn', onCloseTask);
 $(document).on('click', '.assign', onAssignTask);

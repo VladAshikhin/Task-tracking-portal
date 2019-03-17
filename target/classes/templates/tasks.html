@@ -2,59 +2,47 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <meta charset="UTF-8">
     <title>Task-Tracking Portal</title>
     <div style="text-align: right; margin-right: 20px;">
         <form th:action="@{/logout}" method="post" class="logout-btn">
-            <input type="submit" class="btn" value="Sign Out" />
+            <input type="submit" class="btn" value="Sign Out"/>
         </form>
     </div>
-
     <h1>Task-Tracking Portal</h1>
-    <!--<link rel="stylesheet" type="text/css" href="css/cabinet.css">-->
-    <link rel="stylesheet"
-          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/cabinet.css">
 </head>
 <body>
 <h2>Add new task</h2>
 <form action="#" th:action="@{/tasks}" th:object="${taskToSave}" method="post">
     <div class="add-tasks">
-<table id="add-task-fields">
-    <thead>
-        <tr>
-            <td><label for="subject-input">Subject</label></td>
-            <td><label for="message-input">Message</label></td>
-            <td><label for="priority-input">Priority</label></td>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td><input type="text" id="subject-input" class="add-input" th:field="*{subject}" placeholder="New subject"/></td>
-            <td><input type="text" id="message-input" class="add-input" th:field="*{message}" placeholder="New message"/></td>
-            <td><input type="text" id="priority-input" class="add-input" th:field="*{priority}" placeholder="Priority"/></td>
-            <td><input type="submit" class="btn add-btn" value="Add task"></td>
-        </tr>
-    </tbody>
-    </table>
+        <table id="add-task-fields">
+            <thead>
+            <tr>
+                <td><label for="subject-input">Subject</label></td>
+                <td><label for="message-input">Message</label></td>
+                <td><label for="priority-input">Priority</label></td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><input type="text" id="subject-input" class="add-input" th:field="*{subject}"
+                           placeholder="New subject"/></td>
+                <td><input type="text" id="message-input" class="add-input" th:field="*{message}"
+                           placeholder="New message"/></td>
+                <td><input type="text" id="priority-input" class="add-input" th:field="*{priority}"
+                           placeholder="Priority"/></td>
+                <td><input type="submit" class="btn add-btn" value="Add task"></td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 </form>
-<div id="filter-fields">
-<table>
-    <tbody>
-    <tr id="filter-head" style="display: none">
-        <td class="filter-head-cell fil-id"><input type="text" placeholder="Id" class="filter-id" ></td>
-        <td class="filter-head-cell filter-sub"><input type="text" placeholder="Subject" class="subj-field"></td>
-        <td class="filter-head-cell filter-mes"><input type="text" placeholder="Message" class="mess-field" ></td>
-        <td class="filter-head-cell filter-pri"><input type="text" placeholder="Priority" class="prior-field"></td>
-        <td class="filter-head-cell filter-creby"><input type="text" placeholder="Created by" class="creby-field"></td>
-        <td class="filter-head-cell filter-creon"><input type="text" placeholder="Created" class="creon-filter"></td>
-        <td class="filter-head-cell filter-uid"><input type="text" placeholder="Assigned to" class="uid-filter"></td>
-        <td class="filter-head-cell filter-act"><input type="text" placeholder="Active" class="act-filter"></td>
-        <td class="filter-head-cell filter-clmes"><input type="text" placeholder="Close message" class="clmes-filter"></td>
-    </tr>
-    </tbody>
-</table>
+
+<div class="filter-block" id="filter-head" style="display: none">
+    <label>Apply filter</label>
+    <input type="text" placeholder="Filter" class="filter-field">
 </div>
 <div th:if="${not #lists.isEmpty(tasks)}">
     <div>
@@ -76,7 +64,6 @@
                             <span class="onoffswitch-switch"></span>
                         </label>
                     </div>
-                    </label>
                 </td>
                 <td>
                     <button class="btn filter-btn" style="display: none">Show filter</button>
@@ -130,10 +117,5 @@
     </table>
 </div>
 <script src="js/tasks.js"></script>
-<script th:inline="javascript">
-    /*<![CDATA[*/
-
-    /*]]>*/
-</script>
 </body>
 </html>

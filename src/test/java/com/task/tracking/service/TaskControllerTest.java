@@ -1,5 +1,6 @@
 package com.task.tracking.service;
 
+import com.task.tracking.service.domain.dto.TaskDto;
 import com.task.tracking.service.service.TaskService;
 import lombok.SneakyThrows;
 import org.junit.Before;
@@ -13,6 +14,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
 import java.time.LocalDate;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -36,6 +38,7 @@ public class TaskControllerTest {
     private static final Integer USER_ID = 10;
     private static final boolean TASK_ACTIVE = true;
     private static final String CLOSE_MESSAGE = "Task done in time";
+    private static final Integer LOGGED_IN_USER = 1;
 
     @Autowired
     private WebApplicationContext webApplicationContext;
@@ -53,6 +56,18 @@ public class TaskControllerTest {
     @Test
     @SneakyThrows(Exception.class)
     public void GetAllTasksTest() {
+        mockMvc.perform(get("/tasks"))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("tasks"))
+                .andExpect(view().name("tasks"));
+    }
+
+    @Test
+    @SneakyThrows(Exception.class)
+    public void createTask() {
+        String url = "/tasks";
+        TaskDto taskDto = new TaskDto();
+        taskDto.setCreatedBy(LOGGED_IN_USER);
         mockMvc.perform(get("/tasks"))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("tasks"))
@@ -90,6 +105,7 @@ public class TaskControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("login"));
     }
+
     @Test
     @SneakyThrows(Exception.class)
     public void testError() {
@@ -97,14 +113,4 @@ public class TaskControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("403"));
     }
-
-/*    @Test
-    @SneakyThrows(Exception.class)
-    public void AddTaskTest() {
-        mockMvc.perform(post("/tasks"))
-                .andExpect(status().isOk())
-                .param("taskToSave", "test")
-
-        }*/
-
 }
