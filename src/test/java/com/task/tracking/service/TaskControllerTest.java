@@ -64,18 +64,6 @@ public class TaskControllerTest {
 
     @Test
     @SneakyThrows(Exception.class)
-    public void createTask() {
-        String url = "/tasks";
-        TaskDto taskDto = new TaskDto();
-        taskDto.setCreatedBy(LOGGED_IN_USER);
-        mockMvc.perform(get("/tasks"))
-                .andExpect(status().isOk())
-                .andExpect(model().attributeExists("tasks"))
-                .andExpect(view().name("tasks"));
-    }
-
-    @Test
-    @SneakyThrows(Exception.class)
     public void testHome() {
         mockMvc.perform(get("/"))
                 .andExpect(status().isOk())

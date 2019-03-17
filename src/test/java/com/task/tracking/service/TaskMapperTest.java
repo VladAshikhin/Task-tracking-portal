@@ -2,9 +2,7 @@ package com.task.tracking.service;
 
 import com.task.tracking.service.domain.dto.TaskDto;
 import com.task.tracking.service.domain.entity.Task;
-import com.task.tracking.service.mapper.TaskMapper;
 import com.task.tracking.service.mapper.impl.TaskMapperImpl;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.time.LocalDate;

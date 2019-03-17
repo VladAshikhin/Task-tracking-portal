@@ -57,7 +57,7 @@ public class RestController {
         taskToUpdate.setTaskActive(false);
 
         taskService.update(taskToUpdate);
-        return "{}"; //String
+        return "{}";
     }
 
     /**

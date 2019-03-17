@@ -4,7 +4,6 @@ import com.task.tracking.service.domain.dto.UserDto;
 import com.task.tracking.service.domain.entity.User;
 import com.task.tracking.service.mapper.impl.UserMapperImpl;
 import org.junit.Test;
-
 import java.util.ArrayList;
 import java.util.List;
 
